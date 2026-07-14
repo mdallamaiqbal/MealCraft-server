@@ -15,10 +15,35 @@ app.use(express.json());
 app.get('/', (req: Request, res: Response) => {
   res.send('Welcome to MealCraft!');
 });
+interface FoodInput {
+  name: string;
+  price: number;
+  category: string;
+  description: string;
+  image?: string;
+}
 export async function connectToMongoDB() {
   try {
     await client.connect();
-    console.log("You successfully connected to MongoDB!");
+    const database = client.db("MealCraft_db");
+    const foodCollection = database.collection<FoodInput>("foods");
+   app.post('/api/foods', async (req: Request<{}, {}, FoodInput>, res: Response) => {
+    try {
+        const food = req.body; 
+        
+        if (!food || Object.keys(food).length === 0) {
+            return res.status(400).json({ success: false, error: "Food data is required" });
+        }
+        
+        const result = await foodCollection.insertOne(food);
+        
+        return res.status(201).json({ success: true, result });
+        
+    } catch (error) {
+        console.error("Error inserting food item:", error);
+        return res.status(500).json({ success: false, error: "Internal Server Error" });
+    }
+});
     return client;
   } catch (err) {
     console.dir(err);
