@@ -24,7 +24,7 @@ interface FoodInput {
 }
 export async function connectToMongoDB() {
   try {
-    await client.connect();
+    // await client.connect();
     const database = client.db("MealCraft_db");
     const foodCollection = database.collection<FoodInput>("foods");
     const cartCollection = database.collection("carts")
@@ -180,20 +180,17 @@ export async function connectToMongoDB() {
       try {
         const { userId, foodId } = req.params;
 
-        // ১. টাইপস্ক্রিপ্টকে নিশ্চিত করুন যে দুটিই একক স্ট্রিং এবং কোনো অ্যারে নয়
         if (typeof userId !== "string" || typeof foodId !== "string") {
           return res.status(400).json({ success: false, error: "Invalid parameters" });
         }
 
-        // ২. এবার foodId গ্যারান্টিড স্ট্রিং হওয়ায় ObjectId ভ্যালিডেশন পারফেক্টলি কাজ করবে
         if (!ObjectId.isValid(foodId)) {
           return res.status(400).json({ success: false, error: "Invalid Food ID format" });
         }
 
-        // ৩. ডিলিট অপারেশন রান করুন
         const result = await cartCollection.deleteOne({
           userId: String(userId),
-          foodId: new ObjectId(foodId) // এখানে আর কোনো এরর আসবে না!
+          foodId: new ObjectId(foodId) 
         });
 
         if (result.deletedCount === 0) {

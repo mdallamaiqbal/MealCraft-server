@@ -1,36 +1,27 @@
 {
   "compilerOptions": {
-    // 💡 File Layout: কমেন্ট আউট তুলে দিয়ে রুট সেট করা হলো, যেহেতু index.ts বাইরে আছে
     "rootDir": "./",
     "outDir": "./dist",
 
-    // Environment Settings
-    "module": "nodenext",
-    "target": "esnext",
+    "module": "Node16",
+    "target": "ES2022",
     
-    // 💡 Nodejs-এর জন্য টাইপস ইনক্লুড করা হলো
     "lib": ["esnext"],
     "types": ["node"],
 
-    // Other Outputs
     "sourceMap": true,
     "declaration": true,
     "declarationMap": true,
 
-    // Stricter Typechecking Options
     "noUncheckedIndexedAccess": true,
-    "exactOptionalPropertyTypes": true,
+    
 
-    // Recommended Options
     "strict": true,
-    "jsx": "react-jsx",
-    "verbatimModuleSyntax": true,
+    
+    "verbatimModuleSyntax": false,
     "isolatedModules": true,
-    "noUncheckedSideEffectImports": true,
-    "moduleDetection": "force",
     "skipLibCheck": true,
     "esModuleInterop": true
   },
-  // 💡 TypeScript-কে বলে দেওয়া হলো সে যেন শুধু index.ts ফাইলটি স্ক্যান করে
   "include": ["index.ts"]
 }
