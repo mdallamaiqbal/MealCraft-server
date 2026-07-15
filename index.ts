@@ -208,12 +208,16 @@ export async function connectToMongoDB() {
     console.dir(err);
   }
 }
-async function run() {
+// async function run() {
+//   await connectToMongoDB();
+
+//   app.listen(port, () => {
+//     console.log(`server is running on port ${port}`);
+//   });
+// }
+
+// run().catch(console.dir);
+export default async (req: Request, res: Response) => {
   await connectToMongoDB();
-
-  app.listen(port, () => {
-    console.log(`server is running on port ${port}`);
-  });
-}
-
-run().catch(console.dir);
+  return (app as any)(req, res);
+};
